@@ -26,3 +26,15 @@ data/
 *.parquet
 # OS
 .DS_Store
+# Robot learning artifacts — data, checkpoints and logs stay local
+/outputs/
+/posttrain/
+/datasets/
+/policies/
+*.safetensors
+*.pth
+*.pt
+*.mp4
+*.jsonl
+*.pid
+*.status.json

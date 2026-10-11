@@ -50,7 +50,11 @@ The full story (decisions, the data used, what went wrong and how each problem w
 | `tools/posttrain_ctl.py` | CLI: `status`, `tick`, `daemon`, `round-now`, `retry-errors`, `install-agent` | Mac |
 | `tools/portal_export.py`, `tools/portal_sessions.py` | Export training metrics (every round) to the dashboard | Mac |
 | `portal/` | Training dashboard: static server, systemd unit, ECharts front end with a session archive | Server |
-| `dell/piper_policy_portal.py` | Policy execution portal: async inference, safety clamps, rollout recording, hand-correction capture | Dell |
+| `dell/scripts/piper_act_portal.py` | Unified Dell portal: dashboard, drag-teach data collection and policy execution on one CAN adapter | Dell |
+| `dell/piper_policy_portal.py` | Policy execution engine: async inference, safety clamps, rollout recording, hand-correction capture | Dell |
+| `dell/scripts/piper_record_portal.py` | Drag-teach recorder, writing LeRobot datasets plus Cartesian trace sidecars | Dell |
+| `dell/scripts/piper_mac_can.py`, `dell/plugin-patch/` | Windows CAN shim for the candleLight adapter, and the one-file patch to the PiPER plugin that installs it | Dell |
+| `dell/scripts/`, `dell/vla/`, `dell/analysis/` | Teleop, hardware diagnostics, camera-by-name, and investigation scripts (see [`dell/README.md`](dell/README.md)) | Dell |
 | `server/relay.py` | Reverse-proxy relay for the Dell portal through an SSH tunnel (no authentication — do not expose publicly) | Server |
 | `bench_act_mps.py` | ACT training/inference benchmark on Apple Silicon | Mac |
 | `docs/` | Handoff, post-training spec + contract, training and execution guides, hardware notes | — |
@@ -80,9 +84,11 @@ and logs are not in this repository.
 
 ## Not included
 
-The Dell-side recorder, the unified Dell portal (`piper_act_portal.py`), the Windows CAN shim (`piper_mac_can.py`) and
-the patched [WeGo-Robotics/lerobot_robot_piper](https://github.com/WeGo-Robotics/lerobot_robot_piper) plugin live on
-the Windows laptop and are not in this repository yet.
+Datasets, checkpoints, run logs and rollout packages stay in the shared folder. So does the relay server's address:
+`dell/scripts/piper_act_tunnel.bat` reads it from a gitignored `piper_act_tunnel.local.cmd`. The third-party
+[WeGo-Robotics/lerobot_robot_piper](https://github.com/WeGo-Robotics/lerobot_robot_piper) plugin is not vendored.
+Only its one patched file is here, pinned to the upstream commit in
+[`dell/plugin-patch/README.md`](dell/plugin-patch/README.md).
 
 ## Docs
 

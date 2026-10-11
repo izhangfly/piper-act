@@ -860,6 +860,10 @@ class Controller:
         with self.lock:
             if self.state == "running":
                 raise RuntimeError("stop the run before loading another policy")
+            # Only names the portal itself lists. The request is unauthenticated; joining an arbitrary string onto
+            # policies_dir would let "..\..\x" or an absolute/UNC path load (and run) a model from anywhere.
+            if name not in self.list_checkpoints():
+                raise RuntimeError(f"unknown checkpoint {name!r}")
             path = Path(self.args.policies_dir) / name
             self.message = f"Loading {name}…"
             pol = Policy(path, self.args.threads) if self.args.inprocess else PolicyProcess(path, self.args.threads)

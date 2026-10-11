@@ -16,6 +16,7 @@ dist/
 *.key
 *.pem
 secrets.toml
+*.local.cmd
 # Data / databases / runtime
 *.db
 *.sqlite*
@@ -38,3 +39,4 @@ data/
 *.jsonl
 *.pid
 *.status.json
+dell/analysis/*.jpg
